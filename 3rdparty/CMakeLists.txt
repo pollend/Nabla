@@ -26,6 +26,8 @@ set(VOLK_PULL_IN_VULKAN OFF CACHE INTERNAL "" FORCE) # Needed to make sure vulka
 	
 if (WIN32)
 	set(VOLK_STATIC_DEFINES VK_USE_PLATFORM_WIN32_KHR)
+elseif(UNIX AND NOT ANDROID AND NOT APPLE)
+	set(VOLK_STATIC_DEFINES VK_USE_PLATFORM_XCB_KHR)
 endif()
 add_subdirectory(volk volk EXCLUDE_FROM_ALL)
 	
@@ -55,6 +57,7 @@ if (OpenGL_EGL_FOUND AND UNIX AND NOT APPLE)
 		message(FATAL_ERROR "Using Wayland backend!!!")
 	endif()
 endif()
+
 # all of the above fuckery can be dismissed
 add_subdirectory(EGL/EGL)
 

@@ -207,13 +207,14 @@ set(NBL_SYSTEM_SOURCES
 	${NBL_ROOT_PATH}/src/nbl/system/CFileViewAPKAllocator.cpp
 	${NBL_ROOT_PATH}/src/nbl/system/CFileWin32.cpp
 	${NBL_ROOT_PATH}/src/nbl/system/CFilePOSIX.cpp
-	${NBL_ROOT_PATH}/src/nbl/system/CSystemWin32.cpp
+	${NBL_ROOT_PATH}/src/nbl/system/ISystemPOSIX.cpp
 	${NBL_ROOT_PATH}/src/nbl/system/CSystemAndroid.cpp
+	${NBL_ROOT_PATH}/src/nbl/system/CSystemWin32.cpp
 	${NBL_ROOT_PATH}/src/nbl/system/CSystemLinux.cpp
 )
 set(NBL_UI_SOURCES
 	${NBL_ROOT_PATH}/src/nbl/ui/CWindowWin32.cpp
-	${NBL_ROOT_PATH}/src/nbl/ui/CWindowX11.cpp
+	${NBL_ROOT_PATH}/src/nbl/ui/CWindowXcb.cpp
 	${NBL_ROOT_PATH}/src/nbl/ui/CWindowWayland.cpp
 	${NBL_ROOT_PATH}/src/nbl/ui/CWaylandCaller.cpp
 	${NBL_ROOT_PATH}/src/nbl/ui/CCursorControlWin32.cpp
@@ -583,6 +584,7 @@ endif()
 if (UNIX AND NOT ANDROID AND NOT APPLE)
 	target_include_directories(Nabla PUBLIC 
 		${X11_INCLUDE_DIR} 
+		${X11_xcb_INCLUDE_PATH}
 		X11_Xrandr_INCLUDE_PATH
 		${X11_xf86vmode_INCLUDE_PATH}
 	)
@@ -595,6 +597,10 @@ target_link_libraries(Nabla PRIVATE volk)
 if(WIN32)
 	target_compile_definitions(Nabla PRIVATE VK_USE_PLATFORM_WIN32_KHR)
 endif()
+if(UNIX AND NOT ANDROID AND NOT APPLE)
+	target_compile_definitions(Nabla PRIVATE VK_USE_PLATFORM_XCB_KHR)
+endif()
+
 # CUDA
 if (NBL_COMPILE_WITH_CUDA)
 	target_include_directories(Nabla PUBLIC ${CUDAToolkit_INCLUDE_DIRS})
