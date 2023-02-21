@@ -10,11 +10,9 @@
 
 // windows
 #include "nbl/ui/CWindowManagerWin32.h"
-//#include "nbl/ui/CWindowManagerX11.h"
+#include "nbl/ui/CWindowManagerXCB.h"
+
 #include "nbl/ui/CWindowWin32.h"
-// TODO
-//#include "nbl/ui/CWindowAndroid.h"
-//#include "nbl/ui/CWindowX11.h"
-//#include "nbl/ui/CWindowWayland.h"
+#include "nbl/ui/CWindowXCB.h"
 
 #endif
